@@ -18,7 +18,7 @@ abstract class AsymmetricPrivateKey extends AsymmetricKey {
 
 ///
 /// `ByteList` is the base of the PineNaCl cryptographic library,
-/// which is based on the unmodifiable Uin8List class
+/// which is based on the Uint8List class
 /// The bytelist can be created either from
 /// - hex string (with or without '0x' prefix) or
 /// - List of int's
@@ -40,7 +40,6 @@ class ByteList with ListMixin<int>, Encodable {
 
   /// It creates a ByteList and checks wheter the data's length is equal with
   /// the specified constraint (min and max length equal).
-
   ByteList.withConstraint(Iterable<int> data, {required int constraintLength})
       : _u8l = _constructList(data, constraintLength, constraintLength);
 
@@ -54,7 +53,6 @@ class ByteList with ListMixin<int>, Encodable {
 
   /// Decoding encoded String to a ByteList. There is no size constraints for the
   /// decoded bytes.
-  /// TODO: create unit tests for decoding constructors.
   ByteList.decode(String encodedString, {Encoder coder = decoder})
       : this(coder.decode(encodedString));
 
@@ -86,7 +84,8 @@ class ByteList with ListMixin<int>, Encodable {
           'The list length (${data.length}) is invalid (min: $minLength, max: $maxLength)');
     }
 
-    return Uint8List.fromList(data.toList()).asUnmodifiableView();
+    // Changed from .asUnmodifiableView() to just return the Uint8List
+    return Uint8List.fromList(data.toList());
   }
 
   // Default encoder/decoder is the HexCoder()
